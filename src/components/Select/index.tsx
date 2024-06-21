@@ -42,12 +42,12 @@ export const Select = ({
   }
 
   return (
-    <div>
+    <div className={twMerge("w-full", className)}>
       <p className="mb-1">
         <span>{label}</span>
         {required && <span className="ml-1">*</span>}
       </p>
-      <div className={twMerge("relative w-full text-gray-600", className)}>
+      <div className="relative w-full text-gray-600">
         <div
           className="flex h-10 w-full items-center rounded border px-3 py-2"
           onClick={() => setIsOpen(!isOpen)}
