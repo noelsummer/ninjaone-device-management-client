@@ -12,6 +12,15 @@ module.exports = {
   rules: {
     "@typescript-eslint/no-explicit-any": "off",
     "no-case-declarations": "off",
+    "no-undef": "off",
     "react-hooks/exhaustive-deps": "off",
   },
+  overrides: [
+    {
+      files: ["**/*.{js,jsx,ts,tsx}"],
+      env: {
+        jest: true,
+      },
+    },
+  ],
 }
