@@ -60,8 +60,7 @@ export const EditModal = ({ id, isOpen, onDismiss }: EditModalProps) => {
 
   useEffect(() => {
     if (createDeviceResponse) {
-      resetState()
-      onDismiss?.()
+      closeModal()
       dispatch({
         type: "CREATE_DEVICE",
         payload: createDeviceResponse as Device,
@@ -72,8 +71,7 @@ export const EditModal = ({ id, isOpen, onDismiss }: EditModalProps) => {
 
   useEffect(() => {
     if (updateDeviceResponse === 1) {
-      resetState()
-      onDismiss?.()
+      closeModal()
       dispatch({
         type: "UPDATE_DEVICE",
         payload: {
@@ -99,12 +97,17 @@ export const EditModal = ({ id, isOpen, onDismiss }: EditModalProps) => {
 
   useEffect(() => {
     if (getDeviceError) {
-      onDismiss?.()
+      closeModal()
     }
   }, [getDeviceError])
 
   if (!id) {
     return <></>
+  }
+
+  const closeModal = () => {
+    resetState()
+    onDismiss?.()
   }
 
   const handleSubmit = () => {
@@ -139,7 +142,7 @@ export const EditModal = ({ id, isOpen, onDismiss }: EditModalProps) => {
   }
 
   return (
-    <Modal isOpen={isOpen} onDismiss={onDismiss}>
+    <Modal isOpen={isOpen} onDismiss={closeModal}>
       <ModalHeader>{id === "new" ? "Add device" : "Edit device"}</ModalHeader>
       <ModalBody className="mb-6 mt-4">
         {id && id != "new" && getDeviceLoading ? (
@@ -169,7 +172,7 @@ export const EditModal = ({ id, isOpen, onDismiss }: EditModalProps) => {
         <div className="mt-4 flex flex-col space-y-2 sm:flex-row sm:justify-end sm:space-x-2 sm:space-y-0">
           <Button
             className="border-[1px] border-gray-300 bg-white text-sm text-gray-900 hover:bg-gray-100"
-            onClick={onDismiss}
+            onClick={closeModal}
           >
             Cancel
           </Button>
