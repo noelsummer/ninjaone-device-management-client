@@ -58,20 +58,16 @@ export const DeviceListPage = () => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search)
+    const deviceTypes = urlParams.get("device-types")
 
-    if (urlParams.get("search-text")) {
-      setSearchText(urlParams.get("search-text") ?? "")
-    }
+    setSearchText(urlParams.get("search-text") ?? "")
 
-    if (urlParams.get("device-types")) {
-      setDeviceTypes(urlParams.get("device-types")?.split(",") ?? [])
+    if (deviceTypes === null) {
+      setDeviceTypes(Object.keys(DEVICE_TYPE_FILTER_OPTIONS))
     } else {
-      setDeviceTypes([])
+      setDeviceTypes(deviceTypes.length ? deviceTypes.split(",") : [])
     }
-
-    if (urlParams.get("device-sort-by")) {
-      setDeviceSortBy([urlParams.get("device-sort-by") ?? Object.keys(DEVICE_SORT_BY_OPTIONS)[0]])
-    }
+    setDeviceSortBy([urlParams.get("device-sort-by") ?? Object.keys(DEVICE_SORT_BY_OPTIONS)[0]])
   }, [])
 
   useEffect(() => {
@@ -121,17 +117,9 @@ export const DeviceListPage = () => {
   const updateURL = useCallback(() => {
     const searchParams = new URLSearchParams()
 
-    if (searchText) {
-      searchParams.set("search-text", searchText)
-    }
-
-    if (deviceTypes.length) {
-      searchParams.set("device-types", deviceTypes.join(","))
-    }
-
-    if (deviceSortBy.length) {
-      searchParams.set("device-sort-by", deviceSortBy[0])
-    }
+    searchParams.set("search-text", searchText)
+    searchParams.set("device-types", deviceTypes.join(","))
+    searchParams.set("device-sort-by", deviceSortBy[0])
 
     navigate(`?${searchParams.toString()}`, { replace: true })
   }, [searchText, deviceTypes, deviceSortBy])
